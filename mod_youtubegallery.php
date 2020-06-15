@@ -11,7 +11,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 require_once(JPATH_SITE.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_youtubegallery'.DIRECTORY_SEPARATOR.'includes'.DIRECTORY_SEPARATOR.'render.php');
-require_once(JPATH_SITE.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_youtubegallery'.DIRECTORY_SEPARATOR.'includes'.DIRECTORY_SEPARATOR.'misc.php');
+require_once(JPATH_SITE.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_youtubegallery'.DIRECTORY_SEPARATOR.'includes'.DIRECTORY_SEPARATOR.'db.php');
 
 
 $listid=(int)$params->get( 'listid' );
@@ -31,17 +31,17 @@ $align='';
 
 if($listid!=0 and $themeid!=0)
 {
-	$misc=new YouTubeGalleryMisc;
+	$ygDB=new YouTubeGalleryDB;
 
 	$videolist_and_theme_found=true;
 
-	if(!$misc->getVideoListTableRow($listid))
+	if(!$ygDB->getVideoListTableRow($listid))
 	{
 		JFactory::getApplication()->enqueueMessage(JText::_( 'MOD_YOUTUBEGALLERY_ERROR_VIDEOLIST_NOT_SET' ), 'error');
 		$videolist_and_theme_found=false;
 	}
 
-	if(!$misc->getThemeTableRow($themeid))
+	if(!$ygDB->getThemeTableRow($themeid))
 	{
 		JFactory::getApplication()->enqueueMessage(JText::_( 'MOD_YOUTUBEGALLERY_ERROR_THEME_NOT_SET' ), 'error');
 		$videolist_and_theme_found=false;
@@ -54,7 +54,7 @@ if($listid!=0 and $themeid!=0)
 		$youtubegallerycode='';
 		$total_number_of_rows=0;
 
-		$misc->update_playlist();
+		$ygDB->update_playlist();
 
 		$videoid=JFactory::getApplication()->input->getCmd('videoid','');
 		if(!isset($videoid) or $videoid=='')
@@ -63,17 +63,17 @@ if($listid!=0 and $themeid!=0)
 			$video=preg_replace('/[^a-zA-Z0-9-_]+/', '', $video);
 
 			if($video!='')
-				$videoid=YouTubeGalleryMisc::getVideoIDbyAlias($video);
+				$videoid=YouTubeGalleryDB::getVideoIDbyAlias($video);
 		}
 
-		if($misc->theme_row->playvideo==1 and $videoid!='')
-			$misc->theme_row->autoplay=1;
+		if($ygDB->theme_row->playvideo==1 and $videoid!='')
+			$ygDB->theme_row->autoplay=1;
 
 		$videoid_new=$videoid;
 		$jinput=JFactory::getApplication()->input;
 		if($jinput->getInt('yg_api')==1)
         {
-			$videolist=$misc->getVideoList_FromCache_From_Table($videoid_new,$total_number_of_rows,false);
+			$videolist=$ygDB->getVideoList_FromCache_From_Table($videoid_new,$total_number_of_rows,false);
             $result=json_encode($videolist);
 
             if (ob_get_contents())
@@ -91,12 +91,12 @@ if($listid!=0 and $themeid!=0)
 		}
         else
 		{
-			$videolist=$misc->getVideoList_FromCache_From_Table($videoid_new,$total_number_of_rows);
+			$videolist=$ygDB->getVideoList_FromCache_From_Table($videoid_new,$total_number_of_rows);
 		}
 
 		if($videoid=='')
 		{
-			if($misc->theme_row->playvideo==1 and $videoid_new!='')
+			if($ygDB->theme_row->playvideo==1 and $videoid_new!='')
 				$videoid=$videoid_new;
 		}
 
@@ -106,8 +106,8 @@ if($listid!=0 and $themeid!=0)
 
 		$gallerymodule=$renderer->render(
 			$videolist,
-			$misc->videolist_row,
-			$misc->theme_row,
+			$ygDB->videolist_row,
+			$ygDB->theme_row,
 			$total_number_of_rows,
 			$videoid,
 			$custom_itemid
@@ -136,7 +136,7 @@ if($listid!=0 and $themeid!=0)
 			break;
 
 			case 'center' :
-		   		$youtubegallerycode.= '<div style="width:'.$misc->theme_row->width.'px;margin-left:auto;margin-right:auto;position:relative;">'.$gallerymodule.'</div>';
+		   		$youtubegallerycode.= '<div style="width:'.$ygDB->theme_row->width.'px;margin-left:auto;margin-right:auto;position:relative;">'.$gallerymodule.'</div>';
 			break;
 
 		   	case 'right' :
