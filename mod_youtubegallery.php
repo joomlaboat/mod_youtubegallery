@@ -92,6 +92,7 @@ if($listid!=0 and $themeid!=0)
 		{
 			$videolist=$ygDB->getVideoList_FromCache_From_Table($videoid_new,$total_number_of_rows);
 		}
+		
 
 		if($videoid=='')
 		{
