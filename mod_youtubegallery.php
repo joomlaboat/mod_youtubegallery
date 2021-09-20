@@ -9,14 +9,16 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-require_once(JPATH_SITE.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_youtubegallery'.DIRECTORY_SEPARATOR.'includes'.DIRECTORY_SEPARATOR.'render.php');
-require_once(JPATH_SITE.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_youtubegallery'.DIRECTORY_SEPARATOR.'includes'.DIRECTORY_SEPARATOR.'db.php');
+$path=JPATH_SITE.DIRECTORY_SEPARATOR.'components'.DIRECTORY_SEPARATOR.'com_youtubegallery'.DIRECTORY_SEPARATOR.'libraries'.DIRECTORY_SEPARATOR.'youtubegallery'.DIRECTORY_SEPARATOR;
+require_once($path.'loader.php');
+YGLoadClasses();
 
+use YouTubeGallery\Helper;
 
 $listid=(int)$params->get( 'listid' );
 
 //Get Theme
-if(YouTubeGalleryMisc::check_user_agent('mobile'))
+if(Helper::check_user_agent('mobile'))
 {
 	//Use Mobile Theme if set.
 	$themeid=(int)$params->get( 'mobilethemeid' );
@@ -65,8 +67,8 @@ if($listid!=0 and $themeid!=0)
 				$videoid=YouTubeGalleryDB::getVideoIDbyAlias($video);
 		}
 
-		if($ygDB->theme_row->playvideo==1 and $videoid!='')
-			$ygDB->theme_row->autoplay=1;
+		if($ygDB->theme_row->es_playvideo==1 and $videoid!='')
+			$ygDB->theme_row->es_autoplay=1;
 
 		$videoid_new=$videoid;
 		$jinput=JFactory::getApplication()->input;
@@ -96,7 +98,7 @@ if($listid!=0 and $themeid!=0)
 
 		if($videoid=='')
 		{
-			if($ygDB->theme_row->playvideo==1 and $videoid_new!='')
+			if($ygDB->theme_row->es_playvideo==1 and $videoid_new!='')
 				$videoid=$videoid_new;
 		}
 
