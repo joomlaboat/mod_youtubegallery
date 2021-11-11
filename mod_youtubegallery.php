@@ -47,6 +47,8 @@ if($listid!=0 and $themeid!=0)
 		JFactory::getApplication()->enqueueMessage(JText::_( 'MOD_YOUTUBEGALLERY_ERROR_THEME_NOT_SET' ), 'error');
 		$videolist_and_theme_found=false;
 	}
+	
+	$youtubegallerycode = '';
 
 	if($videolist_and_theme_found)
 	{
@@ -152,7 +154,10 @@ if($listid!=0 and $themeid!=0)
 		}//switch($align)
 	}
 	else
-		echo '<p style="background-color:red;color:white;">Youtube Gallery: Video List and Theme not found.</p>';
+	{
+		//JFactory::getApplication()->enqueueMessage('Youtube Gallery: Video List and Theme not found.', 'error');
+		//echo '<p style="background-color:red;color:white;">Youtube Gallery: Video List and Theme not found.</p>';
+	}
 
 	echo $youtubegallerycode;
 
