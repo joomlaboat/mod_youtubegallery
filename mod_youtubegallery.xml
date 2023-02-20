@@ -3,12 +3,12 @@
 	
     <name>Youtube Gallery Module</name>
     <author>JoomlaBoat.com</author>
-    <creationDate>January, 2023</creationDate>
+    <creationDate>February, 2023</creationDate>
     <copyright>Copyright (C) 2009-2023 Ivan Komlev. All rights reserved.</copyright>
     <license>GNU General Public License</license>
     <authorEmail>support@joomlaboat.com</authorEmail>
     <authorUrl>http://www.joomlaboat.com/</authorUrl>
-    <version>5.4.7</version>
+    <version>5.4.8</version>
     <description><![CDATA[<p>YoutubeGallery Module to show Video Gallery (Video List with Theme) already created in Components/YoutubeGallery.</p>
     ]]></description>
     <files>
