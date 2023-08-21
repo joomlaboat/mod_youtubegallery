@@ -38,7 +38,7 @@ if ($listId != 0 and $themeId != 0) {
         JFactory::getApplication()->enqueueMessage(JText::_('MOD_YOUTUBEGALLERY_ERROR_VIDEOLIST_NOT_SET'), 'error');
 
     $videoListAndThemeFound=$ygDB->getThemeTableRow($themeId);
-    if($videoListAndThemeFound)
+    if(!$videoListAndThemeFound)
         JFactory::getApplication()->enqueueMessage(JText::_('MOD_YOUTUBEGALLERY_ERROR_THEME_NOT_SET'), 'error');
 
     $youtubeGalleryCode = '';
