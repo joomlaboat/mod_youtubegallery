@@ -13,6 +13,8 @@ $path = JPATH_SITE . DIRECTORY_SEPARATOR . 'components' . DIRECTORY_SEPARATOR . 
 require_once($path . 'loader.php');
 YGLoadClasses();
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Version;
 use YouTubeGallery\Helper;
 
 $listId = (int)$params->get('listid');
@@ -95,16 +97,23 @@ if ($listId != 0 and $themeId != 0) {
         );
 
         if ($params->get('allowcontentplugins')) {
-            $o = new stdClass();
-            $o->text = $galleryModule;
 
-            $dispatcher = JDispatcher::getInstance();
+	        $version_object = new Version;
+	        $version = (int)$version_object->getShortVersion();
 
-            JPluginHelper::importPlugin('content');
-
-            $r = $dispatcher->trigger('onContentPrepare', array('com_content.article', &$o, &$params_, 0));
-
-            $galleryModule = $o->text;
+	        if ($version < 4) {
+		        $o = new stdClass();
+		        $o->text = $galleryModule;
+		        $dispatcher = JDispatcher::getInstance();
+		        JPluginHelper::importPlugin('content');
+		        $r = $dispatcher->trigger('onContentPrepare', array('com_content.article', &$o, &$params_, 0));
+		        $galleryModule = $o->text;
+	        }
+			else {
+				$mainframe = Factory::getApplication();
+				$content_params = $mainframe->getParams('com_content');
+				$galleryModule = \Joomla\CMS\HTML\Helpers\Content::prepare($galleryModule, $content_params);
+			}
         }
 
         $align = $params->get('galleryalign');
