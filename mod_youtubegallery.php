@@ -2,7 +2,7 @@
 /**
  * Youtube Gallery Joomla! Module
  * @author Ivan Komlev <support@joomlaboat.com>
- * @link http://www.joomlaboat.com
+ * @link https://www.joomlaboat.com
  * @GNU General Public License
  **/
 
@@ -37,11 +37,11 @@ if ($listId != 0 and $themeId != 0) {
     $videoListAndThemeFound=$ygDB->getVideoListTableRow($listId);
 
     if (!$videoListAndThemeFound)
-        JFactory::getApplication()->enqueueMessage(JText::_('MOD_YOUTUBEGALLERY_ERROR_VIDEOLIST_NOT_SET'), 'error');
+        Factory::getApplication()->enqueueMessage(JText::_('MOD_YOUTUBEGALLERY_ERROR_VIDEOLIST_NOT_SET'), 'error');
 
     $videoListAndThemeFound=$ygDB->getThemeTableRow($themeId);
     if(!$videoListAndThemeFound)
-        JFactory::getApplication()->enqueueMessage(JText::_('MOD_YOUTUBEGALLERY_ERROR_THEME_NOT_SET'), 'error');
+        Factory::getApplication()->enqueueMessage(JText::_('MOD_YOUTUBEGALLERY_ERROR_THEME_NOT_SET'), 'error');
 
     $youtubeGalleryCode = '';
 
@@ -51,9 +51,9 @@ if ($listId != 0 and $themeId != 0) {
         $total_number_of_rows = 0;
         $ygDB->update_playlist();
 
-        $videoId = JFactory::getApplication()->input->getCmd('videoid', '');
+        $videoId = Factory::getApplication()->input->getCmd('videoid', '');
         if (!isset($videoId) or $videoId == '') {
-            $video = JFactory::getApplication()->input->getVar('video', '');
+            $video = Factory::getApplication()->input->getVar('video', '');
             $video = preg_replace('/[^a-zA-Z0-9-_]+/', '', $video);
 
             if ($video != '')
@@ -64,7 +64,7 @@ if ($listId != 0 and $themeId != 0) {
             $ygDB->theme_row->es_autoplay = 1;
 
         $videoIdNew = $videoId;
-        $jinput = JFactory::getApplication()->input;
+        $jinput = Factory::getApplication()->input;
         if ($jinput->getInt('yg_api') == 1) {
             $videoList = $ygDB->getVideoList_FromCache_From_Table($videoIdNew, $total_number_of_rows, false);
             $result = json_encode($videoList);
@@ -124,7 +124,7 @@ if ($listId != 0 and $themeId != 0) {
                 break;
 
             case 'center' :
-                $youtubeGalleryCode .= '<div style="width:' . $ygDB->theme_row->width . 'px;margin-left:auto;margin-right:auto;position:relative;">' . $galleryModule . '</div>';
+                $youtubeGalleryCode .= '<div style="width:' . $ygDB->theme_row->es_width . 'px;margin-left:auto;margin-right:auto;position:relative;">' . $galleryModule . '</div>';
                 break;
 
             case 'right' :
@@ -134,10 +134,9 @@ if ($listId != 0 and $themeId != 0) {
             default :
                 $youtubeGalleryCode .= $galleryModule;
                 break;
-
-        }//switch($align)
+        }
     } else {
-        //JFactory::getApplication()->enqueueMessage('Youtube Gallery: Video List and Theme not found.', 'error');
+        //Factory::getApplication()->enqueueMessage('Youtube Gallery: Video List and Theme not found.', 'error');
         //echo '<p style="background-color:red;color:white;">Youtube Gallery: Video List and Theme not found.</p>';
     }
 

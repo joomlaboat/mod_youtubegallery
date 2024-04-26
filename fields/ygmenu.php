@@ -3,11 +3,13 @@
  * Youtubegallery - Search Module for Joomla! 2.5
  * @version 5.0.01.0.0
  * @author Ivan Komlev <support@joomlaboat.com>
- * @link http://www.joomlaboat.com
+ * @link https://www.joomlaboat.com
  * @license GNU/GPL
  **/
 
 // No direct access to this file
+use Joomla\CMS\Factory;
+
 defined('_JEXEC') or die;
  
 // import the list field type
@@ -33,7 +35,7 @@ class JFormFieldYGMenu extends JFormFieldList
          */
         protected function getOptions() 
         {
-                $db = JFactory::getDBO();
+                $db = Factory::getDBO();
                 $query = $db->getQuery(true);
                 $query->select('id,title');
                 $query->from('#__menu');
