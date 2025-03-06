@@ -2,12 +2,12 @@
 <extension type="module" version="3.0" client="site" method="upgrade">
     <name>Youtube Gallery Module</name>
     <author>JoomlaBoat.com</author>
-    <creationDate>February 2025</creationDate>
+    <creationDate>March 2025</creationDate>
     <copyright>Copyright (C) 2009-2025 Ivan Komlev. All rights reserved.</copyright>
     <license>GNU General Public License</license>
     <authorEmail>support@joomlaboat.com</authorEmail>
     <authorUrl>https://www.joomlaboat.com/</authorUrl>
-    <version>5.6.6</version>
+    <version>5.6.7</version>
     <description>MOD_YOUTUBEGALLERY_DESC</description>
     <files>
         <filename module="mod_youtubegallery">mod_youtubegallery.php</filename>
